@@ -32,6 +32,23 @@ const Footer = () => {
           sx={{ mx: 1 }}
         >
           Contacto
+          </Link>
+        <Link
+          href="/contact"
+          underline="hover"
+          color="secondary.main"
+          sx={{ mx: 1 }}
+        >
+          Registro
+          </Link>
+        <Link
+          href="/contact"
+          underline="hover"
+          color="secondary.main"
+          sx={{ mx: 1 }}
+        >
+          Iniciar Sesión
+    
         </Link>
       </Box>
     </Box>

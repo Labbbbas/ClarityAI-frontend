@@ -40,14 +40,6 @@ const ResponsiveAppBar = () => {
       case "Contacto":
         router.push("/contact");
         break;
-      case "Registro":
-        router.push("/contact");
-        break;
-      case "Iniciar Sesión":
-        router.push("/contact");
-        break;
-      default:
-        break;
     }
   };
 

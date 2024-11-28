@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/router"; // Para manejar las redirecciones.
 import { Box, TextField, Button, Typography } from "@mui/material"; // Importamos los componentes de Material-UI.
 
 export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
-  const router = useRouter();
+  const router = useRouter(); // Instancia de router.
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,16 +17,17 @@ export default function Login() {
     const data = await res.json();
 
     if (res.ok) {
+      // Redirige según el rol.
       if (data.role === "admin") {
-        router.push("/admin");
+        router.push("/admin"); // Página de administrador.
       } else if (data.role === "cliente") {
-        router.push("/cliente");
+        router.push("/cliente"); // Página de cliente.
       }
     } else {
       setMessage(data.error || "Error al iniciar sesión");
     }
   };
-
+  // Diseño
   return (
     <Box
       display="flex"

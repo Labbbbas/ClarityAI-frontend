@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Box, TextField, Button, Select, MenuItem, Typography } from "@mui/material";
 
@@ -16,6 +15,7 @@ export default function Register() {
     const data = await res.json();
     setMessage(data.message);
   };
+  // Diseño
 
   return (
     <Box

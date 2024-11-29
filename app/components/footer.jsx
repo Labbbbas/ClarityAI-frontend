@@ -32,6 +32,8 @@ const Footer = () => {
           sx={{ mx: 1 }}
         >
           Contacto
+        
+    
         </Link>
       </Box>
     </Box>

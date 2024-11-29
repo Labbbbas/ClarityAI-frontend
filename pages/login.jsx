@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router"; // Para manejar las redirecciones.
+import { Box, TextField, Button, Typography } from "@mui/material"; // Importamos los componentes de Material-UI.
 
 export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -26,26 +27,72 @@ export default function Login() {
       setMessage(data.error || "Error al iniciar sesión");
     }
   };
-
+  // Diseño
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Iniciar Sesión</h1>
-      <input
-        type="email"
-        placeholder="Correo electrónico"
-        value={formData.email}
-        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Contraseña"
-        value={formData.password}
-        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-        required
-      />
-      <button type="submit">Iniciar Sesión</button>
-      <p>{message}</p>
-    </form>
+    <Box
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      height="100vh"
+      sx={{ backgroundColor: "#9CD0D6" }} // Color de fondo.
+    >
+      <Box
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{
+          backgroundColor: "#fff",
+          padding: 3,
+          borderRadius: 2,
+          boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+          maxWidth: "400px",
+          width: "100%",
+          textAlign: "center",
+        }}
+      >
+        <Typography variant="h4" sx={{ marginBottom: 2, color: "#333" }}>
+          Iniciar Sesión
+        </Typography>
+        <TextField
+          label="Correo electrónico"
+          variant="outlined"
+          fullWidth
+          value={formData.email}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          required
+          sx={{ marginBottom: 2 }}
+        />
+        <TextField
+          label="Contraseña"
+          type="password"
+          variant="outlined"
+          fullWidth
+          value={formData.password}
+          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+          required
+          sx={{ marginBottom: 3 }}
+        />
+        <Button
+          type="submit"
+          variant="contained"
+          fullWidth
+          sx={{
+            backgroundColor: "##3BC9D9",
+            "&:hover": {
+              backgroundColor: "#45a049",
+            },
+          }}
+        >
+          Iniciar Sesión
+        </Button>
+        {message && (
+          <Typography
+            variant="body2"
+            sx={{ color: "red", marginTop: 2 }}
+          >
+            {message}
+          </Typography>
+        )}
+      </Box>
+    </Box>
   );
 }

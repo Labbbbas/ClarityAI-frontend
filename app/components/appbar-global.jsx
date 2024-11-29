@@ -40,8 +40,6 @@ const ResponsiveAppBar = () => {
       case "Contacto":
         router.push("/contact");
         break;
-      default:
-        break;
     }
   };
 

@@ -1,122 +1,132 @@
-"use client"
+"use client";
 
-import React from "react";
-import {
-  AppBar,
-  Box,
-  Toolbar,
-  IconButton,
-  Typography,
-  Menu,
-  MenuItem,
-  Button,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+// Import necessary components from Material UI and other libraries
+import { AppBar, Box, Button, Tab, Tabs, Toolbar, Typography } from "@mui/material";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { theme } from "../styles/global-themes";
 
-const pages = ["Inicio", "Acerca de", "Contacto"];
+export default function AppBarGlobal() {
+    const router = useRouter();
+    const [value, setValue] = useState(false);  // State for tab selection (default: false)
+    const [isAuthenticated, setIsAuthenticated] = useState(null);  // State for authentication status (null initially)
 
-const ResponsiveAppBar = () => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const router = useRouter();
+    // Function to update authentication status based on localStorage value
+    const updateAuthStatus = () => {
+        const authStatus = localStorage.getItem("isAuthenticated") === "true"; // Check if user is authenticated in localStorage
+        setIsAuthenticated(authStatus); // Set authentication status
+    };
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
+    useEffect(() => {
+        // ** Initialize authentication status from localStorage **
+        updateAuthStatus();
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+        // ** Check authentication status every second **
+        const intervalId = setInterval(updateAuthStatus, 1000); // Update authentication status at intervals
 
-  const handleNavigation = (page) => {
-    handleCloseNavMenu();
-    switch (page) {
-      case "Inicio":
-        router.push("/");
-        break;
-      case "Acerca de":
-        router.push("/about");
-        break;
-      case "Contacto":
-        router.push("/contact");
-        break;
-    }
-  };
+        // Cleanup: clear interval when the component is unmounted
+        return () => {
+            clearInterval(intervalId); // Clears the interval to avoid memory leaks
+        };
+    }, []); // Empty dependency array ensures this runs once when the component mounts
 
-  return (
-    <AppBar position="static">
-      <Box sx={{ width: "100%" }}>
-        <Toolbar>
-          {/* Logo */}
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
+    // Handle tab change and update the selected value
+    const handleChange = (newValue) => {
+        setValue(newValue); // Update the selected tab
+    };
+
+    // Navigation functions for each tab
+    const goToHome = () => {
+        setValue(false); // Reset tab value for home
+        router.push("/"); // Navigate to home page
+    };
+
+    const goToAbout = () => {
+        setValue(0); // Set tab value for About
+        router.push("/about"); // Navigate to About page
+    };
+
+    const goToContact = () => {
+        setValue(1); // Set tab value for Contact
+        router.push("/contact"); // Navigate to Contact page
+    };
+
+    // const goToMyApps = () => {
+    //     setValue(2); // Set tab value for My Apps
+    //     router.push("/myApps"); // Navigate to My Apps page
+    // };
+
+    // Handle sign out process
+    const handleSignOut = () => {
+        setIsAuthenticated(false); // Update authentication status
+        localStorage.setItem("isAuthenticated", "false"); // Update localStorage
+        setValue(false); // Reset tab value
+        router.push("/"); // Redirect to home page
+    };
+
+    return (
+        <AppBar
+            position="static"
             sx={{
-              mr: 2,
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
+                color: "secondary", // Set text color for the AppBar
+                minHeight: "64px", // Set minimum height for the AppBar
+                mb: 5, // Margin bottom for spacing
             }}
-          >
-            Clarity AI
-          </Typography>
+        >
+            <Toolbar sx={{ minHeight: "64px" }}>
+                <Box
+                    sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+                    onClick={goToHome} // Navigate to home page when clicked
+                >
 
-          {/* Menú en pantallas grandes */}
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={() => handleNavigation(page)}
-                sx={{ color: "white" }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box>
+                    <Typography
+                        variant="h5"
+                        sx={{
+                            ml: 2, // Margin left
+                            mr: 3, // Margin right
+                            display: { xs: "none", md: "block" }, // Hide on small screens, show on medium and large
+                            whiteSpace: "nowrap", // Prevent text from wrapping
+                        }}
+                    >
+                        Clarity AI
+                    </Typography>
+                </Box>
 
-          {/* Menú en pantallas pequeñas */}
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="menu de navegación"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={() => handleNavigation(page)}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-        </Toolbar>
-      </Box>
-    </AppBar>
-  );
-};
+                {/* Tabs for navigation */}
+                <Tabs
+                    value={value} // Controlled value for the selected tab
+                    onChange={(_, newValue) => handleChange(newValue)} // Update tab selection
+                    textColor="inherit" // Inherit text color
+                    sx={{
+                        flexGrow: 1, // Allow Tabs to take up remaining space
+                        "& .MuiTabs-indicator": {
+                            backgroundColor: value === false ? "transparent" : theme.palette.secondary.main, // Tab indicator color
+                        },
+                    }}
+                >
+                    {/* About Tab */}
+                    <Tab label="About" onClick={goToAbout} sx={{ color: value === 0 ? theme.palette.text.light : '#ffffff' }} />
+                    {/* Contact Tab */}
+                    <Tab label="Contact" onClick={goToContact} sx={{ color: value === 1 ? theme.palette.text.light : '#ffffff' }} />
+                    {/* My Apps Tab - Display only if authenticated */}
+                    {/* {isAuthenticated && (
+                        <Tab label="My Apps" onClick={goToMyApps} sx={{ color: value === 2 ? theme.palette.text.light : '#ffffff' }} />
+                    )} */}
+                </Tabs>
 
-export default ResponsiveAppBar;
+                {/* Dynamic buttons based on authentication status */}
+                {isAuthenticated === null ? null : isAuthenticated ? (
+                    // Show Sign Out button if authenticated
+                    <Button color="secondary" onClick={handleSignOut} variant="contained">Sign Out</Button>
+                ) : (
+                    // Show Sign In and Sign Up buttons if not authenticated
+                    <>
+                        <Button href="/signIn" color="secondary" sx={{ mr: 1, whiteSpace: "nowrap" }} variant="outlined">Sign In</Button>
+                        <Button href="/signUp" color="secondary" sx={{ whiteSpace: "nowrap" }} variant="contained">Sign Up</Button>
+                    </>
+                )}
+            </Toolbar>
+        </AppBar>
+    );
+}

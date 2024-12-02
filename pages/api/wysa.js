@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer');
+import puppeteer from 'puppeteer';
 
 async function scrapeWysa() {
     const browser = await puppeteer.launch({ headless: true }); 
@@ -18,7 +18,15 @@ async function scrapeWysa() {
 
     console.log('Precio:', price);
     await browser.close();
+    return price;
 }
 
-scrapeWysa();
-
+export default async function handler(req, res) {
+    try {
+        const price = await scrapeWysa();
+        res.status(200).json({ price });
+    } catch (error) {
+        console.error('Error al obtener el precio:', error);
+        res.status(500).json({ error: 'Error al obtener el precio' });
+    }
+}

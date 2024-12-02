@@ -4,36 +4,48 @@ import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, Grid, Paper } from "@mui/material";
 
 export default function Home() {
-  const [priceCalm, setPriceCalm] = useState(null);
-  const [priceWysa, setPriceWysa] = useState(null); // Nuevo estado para el precio de Wysa
+    const [priceCalm, setPriceCalm] = useState(null);
+    const [priceWysa, setPriceWysa] = useState(null); // Nuevo estado para el precio de Wysa
+    const [priceHead, setPriceHead] = useState(null);
 
-  useEffect(() => {
-    const fetchPrice = async () => {
-      try {
-        const response = await fetch('/api/calm');
-        if (!response.ok) throw new Error('Error al obtener los datos del servidor');
-        const data = await response.json();
-        setPriceCalm(data.price);
-      } catch (error) {
-        console.error('Error al obtener los datos:', error);
-      }
-    };
+    useEffect(() => {
+        const fetchPrice = async () => {
+            try {
+                const response = await fetch('/api/calm');
+                if (!response.ok) throw new Error('Error al obtener los datos del servidor');
+                const data = await response.json();
+                setPriceCalm(data.price);
+            } catch (error) {
+                console.error('Error al obtener los datos:', error);
+            }
+        };
 
-    const fetchWysaPrice = async () => {
-      try {
-        const response = await fetch('/api/wysa');
-        if (!response.ok) throw new Error('Error al obtener el precio de Wysa');
-        const data = await response.json();
-        setPriceWysa(data.price); // Actualiza el precio de Wysa
-      } catch (error) {
-        console.error('Error al obtener el precio de Wysa:', error);
-      }
-    };
+        const fetchWysaPrice = async () => {
+            try {
+                const response = await fetch('/api/wysa');
+                if (!response.ok) throw new Error('Error al obtener el precio de Wysa');
+                const data = await response.json();
+                setPriceWysa(data.price); // Actualiza el precio de Wysa
+            } catch (error) {
+                console.error('Error al obtener el precio de Wysa:', error);
+            }
+        };
 
-    fetchPrice();
-    fetchWysaPrice(); // Llama a la nueva función
-  }, []);
+        const fetchHeadPrice = async () => {
+            try {
+                const response = await fetch('/api/headscape');
+                if (!response.ok) throw new Error('Error al obtener el precio de Headscape');
+                const data = await response.json();
+                setPriceHead(data.price); // Actualiza el precio de Headscape
+            } catch (error) {
+                console.error('Error al obtener el precio de Headscape:', error);
+            }
+        };
 
+        fetchPrice();
+        fetchWysaPrice(); // Llama a la nueva función
+        fetchHeadPrice(); 
+    }, []);
   return (
     <Box>
       {/* Sección principal con texto e imagen destacada */}
@@ -178,12 +190,12 @@ export default function Home() {
                 Ofrece apoyo psicológico a través de un chatbot general, pero no
                 personaliza recomendaciones de especialistas ni incluye un filtro
                 económico o geográfico.
-              </Typography>
-              <Box sx={{ textAlign: "center", marginTop: 2 }}>
-                <Typography variant="body2">
-                  Precio: No disponible contacta al proveedor.
-                </Typography>
-              </Box>
+               </Typography>
+                          <Box sx={{ textAlign: "center", marginTop: 2 }}>
+                              <Typography variant="body2">
+                                  Precio: No disponible contacta al proveedor.
+                              </Typography>
+                          </Box>
             </Paper>
           </Grid>
 
@@ -207,13 +219,12 @@ export default function Home() {
                 Similar a Woebot, se centra en el bienestar general y apoyo
                 emocional, sin opciones de conexión directa con psicólogos
                 certificados o validación profesional.
-              </Typography>
-              <Box sx={{ textAlign: "center", marginTop: 2 }}>
-                <Typography variant="body2">
-                  Precio: {priceWysa || "Cargando..."} MXN
-                </Typography>
-              </Box>
-              
+                          </Typography>
+                          <Box sx={{ textAlign: "center", marginTop: 2 }}>
+                              <Typography variant="body2">
+                                  Precio: {priceWysa || "Cargando..."} MXN
+                              </Typography>
+                          </Box>
             </Paper>
           </Grid>
 
@@ -237,12 +248,12 @@ export default function Home() {
                 Se enfoca en meditación y mindfulness, pero no aborda necesidades
                 específicas de orientación psicológica personalizada ni ofrece
                 interacción con especialistas.
-              </Typography>
-              <Box sx={{ textAlign: "center", marginTop: 2 }}>
-                <Typography variant="body2">
-                  Precio: $879,00 MXN
-                </Typography>
-              </Box>
+                          </Typography>
+                          <Box sx={{ textAlign: "center", marginTop: 2 }}>
+                              <Typography variant="body2">
+                                  Precio: ${priceHead || "Cargando..."}
+                              </Typography>
+                          </Box>
             </Paper>
           </Grid>
 
@@ -264,12 +275,12 @@ export default function Home() {
                 sx={{ marginTop: 1, textAlign: "justify" }}
               >
                 La diferencia es que ClarityAI conecta con psicólogos, mientras
-                              que Calm se centra en meditaciones y mindfulness.
+                que Calm se centra en meditaciones y mindfulness.
                           </Typography>
                           <Box sx={{ textAlign: "center", marginTop: 2 }}>
-                            <Typography variant="body2">
-                              Precio: {priceCalm || "Cargando..."}
-                            </Typography>
+                              <Typography variant="body2">
+                                  Precio: {priceCalm || "Cargando..."}
+                              </Typography>
                           </Box>
             </Paper>
           </Grid>

@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 
 async function scrapeHeadspace() {
-    const browser = await puppeteer.launch({ headless: false });  
+    const browser = await puppeteer.launch({ headless: true });  
     const page = await browser.newPage();
 
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
@@ -17,7 +17,15 @@ async function scrapeHeadspace() {
     );
     console.log('Precio:', originalPrice);
     await browser.close();
+    return originalPrice;
 }
 
-scrapeHeadspace();
-
+export default async function handler(req, res) {
+    try {
+        const price = await scrapeHeadspace();
+        res.status(200).json({ price });
+    } catch (error) {
+        console.error('Error al obtener el precio:', error);
+        res.status(500).json({ error: 'Error al obtener el precio' });
+    }
+}

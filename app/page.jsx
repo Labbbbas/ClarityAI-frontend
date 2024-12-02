@@ -6,6 +6,7 @@ import { Box, Typography, Button, Grid, Paper } from "@mui/material";
 export default function Home() {
     const [priceCalm, setPriceCalm] = useState(null);
     const [priceWysa, setPriceWysa] = useState(null); // Nuevo estado para el precio de Wysa
+    const [priceHead, setPriceHead] = useState(null);
 
     useEffect(() => {
         const fetchPrice = async () => {
@@ -30,8 +31,20 @@ export default function Home() {
             }
         };
 
+        const fetchHeadPrice = async () => {
+            try {
+                const response = await fetch('/api/headscape');
+                if (!response.ok) throw new Error('Error al obtener el precio de Headscape');
+                const data = await response.json();
+                setPriceHead(data.price); // Actualiza el precio de Headscape
+            } catch (error) {
+                console.error('Error al obtener el precio de Headscape:', error);
+            }
+        };
+
         fetchPrice();
         fetchWysaPrice(); // Llama a la nueva función
+        fetchHeadPrice(); 
     }, []);
   return (
     <Box>
@@ -238,7 +251,7 @@ export default function Home() {
                           </Typography>
                           <Box sx={{ textAlign: "center", marginTop: 2 }}>
                               <Typography variant="body2">
-                                  Precio: $879,00 MXN
+                                  Precio: ${priceHead || "Cargando..."}
                               </Typography>
                           </Box>
             </Paper>

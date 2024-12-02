@@ -107,7 +107,7 @@ const SignUp = ({ onSignUp }) => {
         <Grid2 sx={{mb: 8}}>
           <Box align={"center"}>
               <Typography variant='h2' >
-                  Do you want to save your favorite apps?
+                  Unete Clarity-AI
               </Typography>
           </Box>
         </Grid2>
@@ -126,9 +126,9 @@ const SignUp = ({ onSignUp }) => {
                       } }}
                 />
                 <Box>
-                  <Typography variant='h5' sx={{color: "text.dark"}}>Curate Your Favorites</Typography>
+                  <Typography variant='h5' sx={{color: "text.dark"}}>Prioriza tu bienestar</Typography>
                   <Typography variant='h6' sx={{textAlign:'justify', color: "text.dark"}}>
-                    Easily save and organize your favorite applications in one convenient library, tailored to your needs.
+                    Conecta al instante con nuestro chatbot y especialistas calificados para fortalecer tu salud mental y bienestar integral.
                   </Typography>
                 </Box>
               </Box>
@@ -145,9 +145,9 @@ const SignUp = ({ onSignUp }) => {
                       } }}
                 />
                 <Box>
-                  <Typography variant='h5' sx={{color: "text.dark"}}>Access Anytime, Anywhere</Typography>
+                  <Typography variant='h5' sx={{color: "text.dark"}}>Disponible cuando más lo necesitas</Typography>
                   <Typography variant='h6' sx={{textAlign:'justify', color: "text.dark"}}>
-                    Your personalized library is available on any device, making it easy to access your favorite apps whenever you need them.
+                    Accede a nuestra plataforma 24/7, consulta con especialistas en tu área o recibe apoyo inmediato de nuestra avanzada inteligencia artificial.
                   </Typography>
                 </Box>
               </Box>
@@ -164,9 +164,9 @@ const SignUp = ({ onSignUp }) => {
                       } }}
                 />
                 <Box>
-                  <Typography variant='h5' sx={{color: "text.dark"}}>High-Performance Tools</Typography>
+                  <Typography variant='h5' sx={{color: "text.dark"}}>Tecnología diseñada para ayudarte</Typography>
                   <Typography variant='h6' sx={{textAlign:'justify', color: "text.dark"}}>
-                    Access calculation, simulation, and design applications to maximize your efficiency on every project.
+                    Nuestra IA, cuidadosamente entrenada y en constante evolución, está aquí para ofrecerte el mejor servicio y apoyo personalizado.
                   </Typography>
                 </Box>
               </Box>
@@ -183,9 +183,9 @@ const SignUp = ({ onSignUp }) => {
                       } }}
                 />
                 <Box>
-                  <Typography variant='h5' sx={{color: "text.dark"}}>Innovative functionality</Typography>
+                  <Typography variant='h5' sx={{color: "text.dark"}}>Innovación para transformar vidas</Typography>
                   <Typography variant='h6' sx={{textAlign:'justify', color: "text.dark"}}>
-                    Stay ahead with features that set new standards, addressing your evolving needs better than the rest.
+                    Aprovecha el poder de las herramientas digitales para acercar la salud mental a más personas y generar un impacto positivo en la comunidad.
                   </Typography>
                 </Box>
               </Box>

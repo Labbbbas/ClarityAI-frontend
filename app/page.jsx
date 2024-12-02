@@ -1,8 +1,38 @@
 "use client";
 
+import React, { useState, useEffect } from 'react';
 import { Box, Typography, Button, Grid, Paper } from "@mui/material";
 
 export default function Home() {
+    const [priceCalm, setPriceCalm] = useState(null);
+    const [priceWysa, setPriceWysa] = useState(null); // Nuevo estado para el precio de Wysa
+
+    useEffect(() => {
+        const fetchPrice = async () => {
+            try {
+                const response = await fetch('/api/calm');
+                if (!response.ok) throw new Error('Error al obtener los datos del servidor');
+                const data = await response.json();
+                setPriceCalm(data.price);
+            } catch (error) {
+                console.error('Error al obtener los datos:', error);
+            }
+        };
+
+        const fetchWysaPrice = async () => {
+            try {
+                const response = await fetch('/api/wysa');
+                if (!response.ok) throw new Error('Error al obtener el precio de Wysa');
+                const data = await response.json();
+                setPriceWysa(data.price); // Actualiza el precio de Wysa
+            } catch (error) {
+                console.error('Error al obtener el precio de Wysa:', error);
+            }
+        };
+
+        fetchPrice();
+        fetchWysaPrice(); // Llama a la nueva función
+    }, []);
   return (
     <Box>
       {/* Sección principal con texto e imagen destacada */}
@@ -147,7 +177,12 @@ export default function Home() {
                 Ofrece apoyo psicológico a través de un chatbot general, pero no
                 personaliza recomendaciones de especialistas ni incluye un filtro
                 económico o geográfico.
-              </Typography>
+               </Typography>
+                          <Box sx={{ textAlign: "center", marginTop: 2 }}>
+                              <Typography variant="body2">
+                                  Precio: No disponible contacta al proveedor.
+                              </Typography>
+                          </Box>
             </Paper>
           </Grid>
 
@@ -171,7 +206,12 @@ export default function Home() {
                 Similar a Woebot, se centra en el bienestar general y apoyo
                 emocional, sin opciones de conexión directa con psicólogos
                 certificados o validación profesional.
-              </Typography>
+                          </Typography>
+                          <Box sx={{ textAlign: "center", marginTop: 2 }}>
+                              <Typography variant="body2">
+                                  Precio: {priceWysa || "Cargando..."} MXN
+                              </Typography>
+                          </Box>
             </Paper>
           </Grid>
 
@@ -195,7 +235,12 @@ export default function Home() {
                 Se enfoca en meditación y mindfulness, pero no aborda necesidades
                 específicas de orientación psicológica personalizada ni ofrece
                 interacción con especialistas.
-              </Typography>
+                          </Typography>
+                          <Box sx={{ textAlign: "center", marginTop: 2 }}>
+                              <Typography variant="body2">
+                                  Precio: $879,00 MXN
+                              </Typography>
+                          </Box>
             </Paper>
           </Grid>
 
@@ -218,7 +263,12 @@ export default function Home() {
               >
                 La diferencia es que ClarityAI conecta con psicólogos, mientras
                 que Calm se centra en meditaciones y mindfulness.
-              </Typography>
+                          </Typography>
+                          <Box sx={{ textAlign: "center", marginTop: 2 }}>
+                              <Typography variant="body2">
+                                  Precio: {priceCalm || "Cargando..."}
+                              </Typography>
+                          </Box>
             </Paper>
           </Grid>
         </Grid>

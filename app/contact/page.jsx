@@ -1,20 +1,4 @@
 "use client";
-import { useState, useEffect } from "react";
-import {
-  Box,
-  Typography,
-  Button,
-  Grid,
-  TextField,
-  Paper,
-  Checkbox,
-  FormGroup,
-  FormControlLabel,
-  List,
-  ListItem,
-  ListItemText,
-  Alert,
-} from "@mui/material";
 
 const contacto = () => {
   const containerStyle = {
@@ -26,7 +10,7 @@ const contacto = () => {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: "100vh",
+    height: "80vh",
   };
 
   const contactContainerStyle = {

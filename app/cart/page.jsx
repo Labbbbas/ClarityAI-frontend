@@ -1,6 +1,10 @@
 "use client";
 
+// import { useRouter } from "next/navigation"; // To move between tabs
 import React, { useState, useEffect } from "react";
+import axios from 'axios';
+import { useRouter } from "next/navigation"; 
+
 import {
   Box,
   Typography,
@@ -28,10 +32,13 @@ export default function CatalogoProductos() {
     usuario: false,
     doctor: false,
   });
+
   const [cart, setCart] = useState([]); // Estado del carrito
   const [selectedProduct, setSelectedProduct] = useState(null); // Estado para producto seleccionado
   const [isModalOpen, setModalOpen] = useState(false); // Estado del modal
   const [purchaseSuccess, setPurchaseSuccess] = useState(false); // Estado para mostrar alerta de compra
+
+  const router = useRouter();
 
   const productos = [
     {
@@ -60,7 +67,7 @@ export default function CatalogoProductos() {
       available: true,
       img: "./7.jpg",
       buttonColor: "#8F88A9",
-      price: 2,
+      price: 59,
     },
     {
       name: "Team (Paquete para Doctores)",
@@ -76,7 +83,7 @@ export default function CatalogoProductos() {
       available: true,
       img: "./8.jpg",
       buttonColor: "#4F695A",
-      price: 3,
+      price: 99,
     },
   ];
 
@@ -109,7 +116,8 @@ export default function CatalogoProductos() {
   };
 
   const addToCart = (product) => {
-    if (cart.length > 0) {
+    setSelectedProduct(product);
+    if (cart.length === 1) {
       alert("Solo puedes agregar un único producto al carrito.");
       return;
     }
@@ -135,10 +143,50 @@ export default function CatalogoProductos() {
   };
 
   const handleConfirmPurchase = () => {
-    setCart([]);
-    setPurchaseSuccess(true);
-    setTimeout(() => setPurchaseSuccess(false), 3000); // Mostrar alerta por 3 segundos
+    confirmPurchase();
+    router.push("/"); // Navigate to home page
   };
+
+  const confirmPurchase = async () => {
+    console.log("hola", cart);
+    console.log("local", localStorage.userID);
+    const userTemp = null;
+
+    try{
+      await axios.get("http://127.0.0.1:8000/api/v1/users/" + localStorage.userID)
+      .then(async response => {
+        response.data["product_name"] = selectedProduct.name;
+        const temp = {
+          _id: response.data._id,
+          email: response.data.email,
+          password: response.data.password,
+          product_name: response.data.product_name
+        };
+        console.log(temp)
+
+        await axios.put(`http://127.0.0.1:8000/api/v1/users/${localStorage.userID}`, temp)
+        .then(response => {
+          console.log(response)
+      })
+      .catch(error => console.error(error));
+      })
+      .catch(error => console.error(error));
+
+      // 
+      // console.log("nuevo objeto", response.data);
+      // 
+      // console.log("send", tesmp);
+      // const update = await axios.put("http://127.0.0.1:8000/api/v1/users/" + tesmp);
+      // console.log("response", update.data);
+
+    } catch (error) {
+      console.error("Error al obtener usuario", error);
+    }
+
+    // setPurchaseSuccess(true);
+    // setCart([]);
+    // setTimeout(() => setPurchaseSuccess(false), 3000); // Mostrar alerta por 3 segundos
+  }
 
   return (
     <Box sx={{ display: "flex", minHeight: "100vh", backgroundColor: "#F2F2F0" }}>
@@ -173,24 +221,23 @@ export default function CatalogoProductos() {
         </Box>
 
         {/* Productos */}
-        <Grid container spacing={4}>
+        <Grid container spacing={4} justifyContent="center" alignItems="center">
           {filteredProducts.map((product, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
-              <Paper elevation={3} sx={{ padding: 2 }}>
+              <Paper elevation={3} sx={{ 
+                padding: 2,
+                display: 'flex',
+                flexDirection: 'column', // Alinea los elementos verticalmente
+                alignItems: 'center', // Centra los elementos dentro del Paper
+                textAlign: 'center', // Centra el texto
+              }}>
                 <Box component="img" src={product.img} alt={product.name} sx={{ width: "100%", height: 200 }} />
-                <Typography variant="h6" sx={{ fontWeight: "bold", marginTop: 2 }}>
+                <Typography variant="h6" sx={{ fontWeight: "bold", marginTop: 2, textAlign: "center" }}>
                   {product.name}
                 </Typography>
-                <Typography variant="body1" sx={{ marginBottom: 2 }}>
+                <Typography variant="body1" sx={{ marginBottom: 2, textAlign: "center" }}>
                   Precio: ${product.price}
                 </Typography>
-                <Button
-                  variant="outlined"
-                  onClick={() => handleOpenModal(product)}
-                  sx={{ marginBottom: 2 }}
-                >
-                  Ver detalles
-                </Button>
                 <Button variant="contained" onClick={() => addToCart(product)}>
                   Añadir al carrito
                 </Button>
@@ -267,7 +314,7 @@ export default function CatalogoProductos() {
                 {selectedProduct.name}
               </Typography>
               <List>
-                {selectedProduct.details.map((detail, index) => (
+                {selectedProduct ? null : selectedProduct.details.map((detail, index) => (
                   <ListItem key={index}>
                     <ListItemText primary={`• ${detail}`} />
                   </ListItem>

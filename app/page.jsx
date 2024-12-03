@@ -147,7 +147,7 @@ export default function Home() {
             variant="h5"
             sx={{ fontWeight: "bold", marginBottom: 1, textAlign: "center" }}
           >
-            Características de la APP.
+            Características de la APP
           </Typography>
           <Typography
             variant="body1"

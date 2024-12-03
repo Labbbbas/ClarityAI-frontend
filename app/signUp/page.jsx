@@ -38,10 +38,10 @@ const SignUp = ({ onSignUp }) => {
   const router = useRouter(); //function to redirect "Don't have an account? Sign Up" 
   
   const passwordRequirements = [
-    { text: "Minimum of 8 characters", regex: /.{8,}/ }, 
-    { text: "At least one uppercase letter", regex: /[A-Z]/ }, 
-    { text: "At least one number", regex: /[0-9]/ }, 
-    { text: "At least one special character", regex: /[!@#$%^&*(),.?":{}|<>]/ }, 
+    { text: "Mínimo de 8 caracteres", regex: /.{8,}/ }, 
+    { text: "Mínimo una mayúscula", regex: /[A-Z]/ }, 
+    { text: "Mínimo un número", regex: /[0-9]/ }, 
+    { text: "Mínimo un caracter especial", regex: /[!@#$%^&*(),.?":{}|<>]/ }, 
   ];
 
   const checkRequirement = (r) => r.regex.test(password);
@@ -56,22 +56,22 @@ const SignUp = ({ onSignUp }) => {
       localStorage.setItem('isAuthenticated', 'true');
       localStorage.setItem('userID', response.data._id);
       // redirect to home page
-      router.push("/");
+      router.push("/cart");
     }
     catch (e) {
       switch (e.response.status) {
         case 401:
         case 402:
-            alert('Invalid credentials');
+            alert('Credenciales inválidas');
             break;
         case 403:
-            alert('User already exists');
+            alert('El usuario ya existe');
             break;
         case 404:
-            alert('User not found');
+            alert('Usuario no encontrado');
             break;
         case 501:
-            alert('Server error');
+            alert('Error de servidor');
         default:
             console.log(e.response.data);
             break;
@@ -195,12 +195,12 @@ const SignUp = ({ onSignUp }) => {
           {/*Right Column*/}
           <Grid item xs={12} md={6}>
             <Paper sx={{ p: 6, borderRadius: 2, bgcolor: 'primary.main', boxShadow: 3 }}>
-              <Typography mb={6} variant='h2' color='white'>
-                Sign Up
+              <Typography mb={6} variant='h2' color='white' sx={{ textAlign: 'center' }}>
+                Registrate
               </Typography>
               <form onSubmit={handleSubmit} >
                 <TextField
-                  label={<Typography variant='h6' color='white'>EMAIL</Typography>}
+                  label={<Typography variant='h6' color='white'>Correo electrónico</Typography>}
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -244,7 +244,7 @@ const SignUp = ({ onSignUp }) => {
                   }}
                 />
                 <TextField
-                  label={<Typography variant='h6' color='white'>PASSWORD</Typography>}
+                  label={<Typography variant='h6' color='white'>Contraseña</Typography>}
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -320,7 +320,7 @@ const SignUp = ({ onSignUp }) => {
                   }
                   label={
                     <Typography mt={3}  variant='h6' color='white'>
-                      I agree to the Terms and conditions
+                      Acepto los Términos y Condiciones
                     </Typography>
                   }
                   sx={{
@@ -331,13 +331,13 @@ const SignUp = ({ onSignUp }) => {
                 />
 
                 <Button type="submit" variant='contained' color='secondary' fullWidth>
-                  Sign Up
+                  Registrarse
                 </Button>
               </form>
               <Box sx={{ mt: 2 }}>
                 <Typography variant='h6' align='center' color='white'>
-                  Do you have an account? {' '}
-                  <Typography component='span' color='secondary' sx={{ cursor: 'pointer' }} onClick={handleSI} >Sign In</Typography>
+                  ¿Ya tiene una cuenta? {' '}
+                  <Typography component='span' color='secondary' sx={{ cursor: 'pointer' }} onClick={handleSI} >Iniciar Sesión</Typography>
                 </Typography>
               </Box>
             </Paper>

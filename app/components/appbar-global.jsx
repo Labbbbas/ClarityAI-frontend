@@ -52,6 +52,10 @@ export default function AppBarGlobal() {
         router.push("/contact"); // Navigate to Contact page
     };
 
+    const goToCatalogo = () => {
+      setValue(2); // Set tab value for About
+      router.push("/catalogo"); // Navigate to About page
+    };
     // const goToMyApps = () => {
     //     setValue(2); // Set tab value for My Apps
     //     router.push("/myApps"); // Navigate to My Apps page
@@ -71,7 +75,6 @@ export default function AppBarGlobal() {
             sx={{
                 color: "secondary", // Set text color for the AppBar
                 minHeight: "64px", // Set minimum height for the AppBar
-                mb: 5, // Margin bottom for spacing
             }}
         >
             <Toolbar sx={{ minHeight: "64px" }}>
@@ -106,9 +109,11 @@ export default function AppBarGlobal() {
                     }}
                 >
                     {/* About Tab */}
-                    <Tab label="About" onClick={goToAbout} sx={{ color: value === 0 ? theme.palette.text.light : '#ffffff' }} />
+                    <Tab label="Acerca De" onClick={goToAbout} sx={{ color: value === 0 ? theme.palette.text.light : '#ffffff' }} />
                     {/* Contact Tab */}
-                    <Tab label="Contact" onClick={goToContact} sx={{ color: value === 1 ? theme.palette.text.light : '#ffffff' }} />
+                    <Tab label="Contacto" onClick={goToContact} sx={{ color: value === 1 ? theme.palette.text.light : '#ffffff' }} />
+                    {/* Catalogo Tap - Display only if authenticated */}
+                    <Tab label="Catalogo" onClick={goToCatalogo} sx={{ color: value === 1 ? theme.palette.text.light : '#ffffff' }} />
                     {/* My Apps Tab - Display only if authenticated */}
                     {/* {isAuthenticated && (
                         <Tab label="My Apps" onClick={goToMyApps} sx={{ color: value === 2 ? theme.palette.text.light : '#ffffff' }} />
@@ -118,12 +123,12 @@ export default function AppBarGlobal() {
                 {/* Dynamic buttons based on authentication status */}
                 {isAuthenticated === null ? null : isAuthenticated ? (
                     // Show Sign Out button if authenticated
-                    <Button color="secondary" onClick={handleSignOut} variant="contained">Sign Out</Button>
+                    <Button color="secondary" onClick={handleSignOut} variant="contained">Salir</Button>
                 ) : (
                     // Show Sign In and Sign Up buttons if not authenticated
                     <>
-                        <Button href="/signIn" color="secondary" sx={{ mr: 1, whiteSpace: "nowrap" }} variant="outlined">Sign In</Button>
-                        <Button href="/signUp" color="secondary" sx={{ whiteSpace: "nowrap" }} variant="contained">Sign Up</Button>
+                        <Button href="/signIn" color="secondary" sx={{ mr: 1, whiteSpace: "nowrap" }} variant="outlined">Iniciar Sesión</Button>
+                        <Button href="/signUp" color="secondary" sx={{ whiteSpace: "nowrap" }} variant="contained">Registrarse</Button>
                     </>
                 )}
             </Toolbar>

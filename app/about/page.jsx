@@ -15,10 +15,6 @@ export default function AboutPage() {
 
   return (
     <Container maxWidth="lg" sx={{ py: 6 }}>
-      {/* Título principal */}
-      <Typography variant="h3" align="center" sx={{ fontWeight: "bold", mb: 4 }}>
-        Acerca de Nosotros
-      </Typography>
 
       {/* Sección: Acerca de ClarityAI */}
       <Box sx={{ mb: 6 }}>

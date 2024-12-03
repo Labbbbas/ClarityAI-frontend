@@ -19,24 +19,29 @@ const SignIn = ({ onSignIn }) => { // Receive onSignIn as a prop
                     password: password
                 }
             });
-            id = response.data._id;
-            // Set local storage
-            localStorage.setItem('user', email);
-            localStorage.setItem('userID', id);
-            localStorage.setItem('isAuthenticated', 'true');
-            // Redirect to home page
-            router.push("/");
+            console.log("usuario login", response)
+              id = response.data._id;
+              // Set local storage
+              localStorage.setItem('user', email);
+              localStorage.setItem('userID', id);
+              localStorage.setItem('isAuthenticated', 'true');
+            if(response.data.email === "admin@gmail.com") {
+              router.push("/admin");
+              } else {
+                // Redirect to home page
+                router.push("/");
+              }
         } catch (e) {
             switch (e.response.status) {
                 case 401:
                 case 402:
-                    alert('Invalid credentials');
+                    alert('Ccredenciales inválidas');
                     break;
                 case 403:
-                    alert('Wrong password or email');
+                    alert('Correo electrónico o contraseña inválidas');
                     break;
                 case 404:
-                    alert('User not found');
+                    alert('Usuario no encontrado');
                     break;
                 default:
                     console.log(e.response.data);
@@ -63,7 +68,6 @@ const SignIn = ({ onSignIn }) => { // Receive onSignIn as a prop
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundImage: 'url(/banner.jpg)',
                 backgroundSize: 'cover',
             }}
         >
@@ -78,15 +82,15 @@ const SignIn = ({ onSignIn }) => { // Receive onSignIn as a prop
                                 padding: 4,
                             }}
                         >
-                            <Typography variant="h1" sx={{ color: 'text.dark', marginBottom: 5 }}>
-                                Sign In
+                            <Typography variant="h3" sx={{ color: 'text.dark', marginBottom: 5 }}>
+                                Inicia Sesión
                             </Typography>
                             <Typography variant="body1" sx={{ color: 'text.dark', marginBottom: 2 }}>
-                                Welcome back! Your apps are waiting for you.
+                                ¡Bienvenido de vuelta! 
                             </Typography>
                             <form onSubmit={handleSubmit} style={{ width: '100%' }}>
                                 <TextField
-                                    label="Email"
+                                    label="Correo electrónico"
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
@@ -111,7 +115,7 @@ const SignIn = ({ onSignIn }) => { // Receive onSignIn as a prop
                                     }}
                                 />
                                 <TextField
-                                    label="Password"
+                                    label="Contraseña"
                                     type="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
@@ -136,13 +140,13 @@ const SignIn = ({ onSignIn }) => { // Receive onSignIn as a prop
                                     }}
                                 />
                                 <Button type="submit" variant="contained" color="secondary" fullWidth sx={{ mt: 2 }}>
-                                    Login
+                                    Iniciar Sesión
                                 </Button>
                             </form>
                             <Box sx={{ mt: 2, textAlign: 'center' }}>
                                 <Typography variant='h6' align='center' color='text.dark'>
-                                    Don't have an account? {' '}
-                                <Typography variant='h6' component='span' color='secondary' sx={{ cursor: 'pointer', '&:hover': {color: 'black'}}} onClick={handleSU}>Sign Up</Typography>
+                                    ¿No tienes una cuenta? {' '}
+                                <Typography variant='h6' component='span' color='secondary' sx={{ cursor: 'pointer', '&:hover': {color: 'black'}}} onClick={handleSU}>Registrate</Typography>
                                 </Typography>
                             </Box>
                         </Box>

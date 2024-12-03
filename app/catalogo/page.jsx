@@ -54,7 +54,7 @@ export default function CatalogoProductos() {
       available: true,
       img: "./7.jpg",
       buttonColor: "#8F88A9",
-      price: "$2",
+      price: "$59 al mes",
     },
     {
       name: "Team (Paquete para Doctores)",
@@ -70,7 +70,7 @@ export default function CatalogoProductos() {
       available: true,
       img: "./8.jpg",
       buttonColor: "#4F695A",
-      price: "$3",
+      price: "$99 al mes",
     },
   ];
 
@@ -246,7 +246,7 @@ export default function CatalogoProductos() {
                       marginBottom: 2,
                     }}
                   />
-                  <Typography variant="h6" sx={{ fontWeight: "bold", marginBottom: 1 }}>
+                  <Typography variant="h6" sx={{ fontWeight: "bold", marginBottom: 1, textAlign: 'center' }}>
                     {product.name}
                   </Typography>
                   {/* Lista de detalles */}

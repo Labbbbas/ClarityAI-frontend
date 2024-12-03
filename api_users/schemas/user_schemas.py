@@ -4,7 +4,6 @@ import re
 class UserSchema(Schema):
     email = fields.String(required=True)
     password = fields.String(required=True)
-    # likedApps = fields.List(fields.String(), missing=[]) # those are the _ids from the apps
 
     @validates('email')
     def validate_email(self, value):
